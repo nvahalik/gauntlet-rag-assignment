@@ -1,0 +1,42 @@
+{
+  "name": "rag-document-search",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "eval:retrieval": "npx tsx evals/retrieval-eval.ts",
+    "eval:all": "npm run eval:retrieval"
+  },
+  "dependencies": {
+    "@chroma-core/ollama": "^0.1.5",
+    "@types/node": "^20.17.6",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.0",
+    "chromadb": "^3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.453.0",
+    "next": "14.2.15",
+    "ollama": "^0.6.3",
+    "openai": "^4.67.3",
+    "postcss": "^8.4.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.6.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^10.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.15",
+    "tsx": "^4.7.0",
+    "uuid": "^10.0.0"
+  }
+}

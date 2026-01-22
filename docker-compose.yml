@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # ChromaDB Vector Database
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - ALLOW_RESET=true
+      - IS_PERSISTENT=true
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "/bin/bash", "-c", "cat < /dev/null > /dev/tcp/localhost/8000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Next.js Application
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/.next
+    environment:
+      # Next.js
+      - NODE_ENV=development
+
+      # ChromaDB Connection
+      - CHROMA_URL=http://chromadb:8000
+
+      # OpenAI API
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+    depends_on:
+      chromadb:
+        condition: service_healthy
+    networks:
+      - app-network
+    command: sh -c "npm install && npm run dev"
+
+volumes:
+  chroma_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
